@@ -15,6 +15,7 @@ module.exports = {
   },
   devServer: {
     contentBase: __dirname + '/app'
+    public: 'srv.biyosecure.com'
   },
   optimization: {},
   plugins: [
