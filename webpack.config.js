@@ -14,7 +14,7 @@ module.exports = {
     filename: '[name].[hash].bundle.js'
   },
   devServer: {
-    contentBase: __dirname + '/app'
+    contentBase: __dirname + '/app',
     public: 'srv.biyosecure.com'
   },
   optimization: {},
