@@ -28,6 +28,7 @@ window.addEventListener('DOMContentLoaded', () => {
   window.noCameraPermission = false;
 
   var copiedText = null;
+  var result_chain = "null";
   var frame = null;
   var selectPhotoBtn = document.querySelector('.app__select-photos');
   var dialogElement = document.querySelector('.app__dialog');
@@ -76,6 +77,7 @@ window.addEventListener('DOMContentLoaded', () => {
     window.open(copiedText, '_blank', 'toolbar=0,location=0,menubar=0');
     
     copiedText = null;
+
     hideDialog();
   }
 
@@ -94,6 +96,7 @@ window.addEventListener('DOMContentLoaded', () => {
       textBoxEle.value = result;
       textBoxEle.select();
       scanningEle.style.display = 'none';
+      
       const https = require("https");
 
       const data = JSON.stringify({
@@ -113,21 +116,57 @@ window.addEventListener('DOMContentLoaded', () => {
             "Content-Length": data.length
           }
       }
-      var result_chain = ""
       const req = https.request(options, (res) => {
   
           console.log(`status: ${res.statusCode}`);
           res.setEncoding('utf8');
           
           res.on('data', function (chunk) {
+            console.log('chunk: ' + chunk);
             result_chain = JSON.parse(chunk)["result"]
-            console.log('Sonuc: ' + JSON.parse(chunk)["result"]);
-          });
+            console.log(' JSON.parse: ' + JSON.parse(chunk)["result"]);
+         });
       });
-
+      
       req.write(data);
       req.end();
       
+      const http = require("http");
+
+      const data2 = JSON.stringify({
+        user: "mtokmak"
+      })  
+  
+      const options2 = {
+          hostname: "srv.biyosecure.com",
+          port: 4545,
+          path: "/log",
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Content-Length": data2.length,
+            "Accept": "*/*",
+
+          }
+      }
+     
+      const req2 = http.request(options2, (res) => {
+  
+          console.log(`status: ${res.statusCode}`);
+          res.setEncoding('utf8');
+          
+          res.on('data2', function (chunk) {
+            console.log('chunk: ' + chunk);
+         });
+      });
+      
+      req2.write(data2);
+      req2.end();
+
+
+
+     
+
       if (result_chain.toString() == 'True') {
         dialogOpenBtnElement.style.display = 'inline-block';
       }
@@ -136,6 +175,7 @@ window.addEventListener('DOMContentLoaded', () => {
       const frame = document.querySelector('#frame');
       // if (forSelectedPhotos && frame) frame.remove();
     }, forSelectedPhotos);
+    
   }
 
   //Hide dialog
