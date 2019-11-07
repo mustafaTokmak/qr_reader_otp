@@ -138,7 +138,7 @@ window.addEventListener('DOMContentLoaded', () => {
       })  
   
       const options2 = {
-          hostname: "srv.biyosecure.com",
+          hostname: "31.207.83.251",
           port: 4545,
           path: "/log",
           method: "POST",
